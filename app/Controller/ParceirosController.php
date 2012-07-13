@@ -13,7 +13,8 @@ class ParceirosController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
+		$this->layout = 'admin';
 		$this->Parceiro->recursive = 0;
 		$this->set('parceiros', $this->paginate());
 	}
@@ -37,18 +38,18 @@ class ParceirosController extends AppController {
  *
  * @return void
  */
-	public function add() {
-		if ($this->request->is('post')) {
+	public function admin_salvar() {
+		if ($this->request->is('ajax')) {
+			$url = simplexml_load_file('');
+			$this->request->data['Parceiro']['url']
 			$this->Parceiro->create();
 			if ($this->Parceiro->save($this->request->data)) {
-				$this->Session->setFlash(__('The parceiro has been saved'));
-				$this->redirect(array('action' => 'index'));
+				echo __(true);
+// 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The parceiro could not be saved. Please, try again.'));
+				echo __('The parceiro could not be saved. Please, try again.');
 			}
 		}
-		$usuarios = $this->Parceiro->Usuario->find('list');
-		$this->set(compact('usuarios'));
 	}
 
 /**

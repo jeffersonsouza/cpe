@@ -13,7 +13,8 @@ class ClientesController extends AppController {
  *
  * @return void
  */
-	public function index() {
+	public function admin_index() {
+		$this->layout = 'admin';
 		$this->Cliente->recursive = 0;
 		$this->set('clientes', $this->paginate());
 	}
