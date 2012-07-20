@@ -6,6 +6,8 @@
 jQuery(function($){
 	$('input, textarea').setMask({ textAlign : false });
 	
+	$('.tooltips').tooltip();
+	
 	$('#cadastrar-parceiro').click(function(){
 		var campos = {
 			'data[Parceiro][nome]' : $('#nome').val(),
@@ -18,6 +20,11 @@ jQuery(function($){
 		
 		$.post('/admin/parceiros/salvar', campos, function(retorno){
 			console.log(retorno);
+			if(retorno != 'false'){
+				$('#listar-parceiros').append(retorno);
+				$('#form-cadastro input:text').val('');
+			}
+			
 		});
 	});
 });

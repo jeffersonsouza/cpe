@@ -1,3 +1,4 @@
+<?php die(debug($this->request))?>
 <div class="modal">
 	<?php echo $this->Form->create('Cliente', array()); ?>
 	<table class="table">

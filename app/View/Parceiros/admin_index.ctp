@@ -1,4 +1,4 @@
-<?php
+<?php //die(debug($this->request));
 // Incluir js para validação de campos
 $this->start('script');
 echo $this->Html->script(array('jquery.meio.mask.min', 'admin'));
@@ -12,17 +12,31 @@ $this->end();
 </div>
 <div class="container">
 	<article class="span7">
-		<table class="table table-striped table-bordered table-condensed">
+		<table class="table table-striped table-bordered table-condensed" id="listar-parceiros">
 			<tr>
 				<th><?php echo $this->Paginator->sort('id');?></th>
 				<th><?php echo $this->Paginator->sort('nome');?></th>
 				<th><?php echo $this->Paginator->sort('url', 'Link de Acesso');?></th>
 				<th><?php echo $this->Paginator->sort('created', 'Data de Cadastro');?></th>
+				<th width="50"><?php echo $this->Paginator->sort('Ações');?></th>
 			</tr>
+			<?php foreach($parceiros as $key => $parceiro): ?>
+			<tr id="<?php echo $parceiro['Parceiro']['id']; ?>">
+				<td>#<?php echo $parceiro['Parceiro']['id']; ?></td>
+				<td><?php echo $parceiro['Parceiro']['nome']; ?></td>
+				<td><a target="_blank" href="<?php echo $parceiro['Parceiro']['url']; ?>"><?php echo $parceiro['Parceiro']['url']; ?></a></td>
+				<td><?php echo $this->Time->format('d-m-Y H:i', $parceiro['Parceiro']['created']); ?></td>
+				<td>
+					<a href="javascript:void(0);" class="tooltips" title="Definir prêmio para clientes"><i class="icon-gift adicionar-premio"></i></a>
+					<a href="javascript:void(0);" class="tooltips" title="Editar este parceiro"><i class="icon-edit editar-parceiro"></i></a>
+					<a href="javascript:void(0);" class="tooltips" title="Remover este parceiro"><i class="icon-remove-sign remover-parceiro"></i></a>
+				</td>
+			</tr>
+			<?php endforeach; ?>
 		</table>
 	</article>
 	
-	<section class="span3 well">
+	<section class="span3 well" id="form-cadastro">
 		<?php echo $this->Form->create('Parceiro'); ?>
 		<?php echo $this->Form->input('nome', array('class' => 'span3', 'placeholder' => 'nome do parceiro', 'id' => 'nome')); ?>
 		<?php echo $this->Form->input('telefone', array('class' => 'span3', 'placeholder' => 'telefone do parceiro', 'id' => 'telefone', 'alt' => 'phone')); ?>

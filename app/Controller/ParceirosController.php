@@ -40,16 +40,29 @@ class ParceirosController extends AppController {
  */
 	public function admin_salvar() {
 		if ($this->request->is('ajax')) {
-			$url = simplexml_load_file('');
-			$this->request->data['Parceiro']['url']
+			$token = time();
+			$xml = Xml::build("http://migre.me/api.xml?url=" . Router::url("/", true) . '?partner=' . $token);
+
+			$this->request->data['Parceiro']['url'] = $xml->migre;
+			$this->request->data['Parceiro']['token'] = $xml->id;
 			$this->Parceiro->create();
 			if ($this->Parceiro->save($this->request->data)) {
-				echo __(true);
-// 				$this->redirect(array('action' => 'index'));
+				App::uses('CakeTime', 'Utility');
+				$row = '<tr>';
+				$row .= '<td>#' . $this->Parceiro->id . '</td>';
+				$row .= '<td>' . $this->request->data['Parceiro']['nome'] . '</td>';
+				$row .= '<td><a target="_blank" href="' . $this->request->data['Parceiro']['url'] . '">' . $this->request->data['Parceiro']['url'] . '</a></td>';
+				$row .= '<td>' . date('d-m-Y H:i') . '</td>';
+				$row .= '</tr>';
+				$this->set('retorno', $row);
+				echo $row;
 			} else {
-				echo __('The parceiro could not be saved. Please, try again.');
+				$this->set('retorno', 'false');
+				echo 'false';
 			}
 		}
+		$this->autoRender = false;
+		$this->layout = 'ajax';
 	}
 
 /**
