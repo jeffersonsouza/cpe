@@ -25,12 +25,27 @@ class ParceirosController extends AppController {
  * @param string $id
  * @return void
  */
-	public function view($id = null) {
+	public function admin_dados($id = null) {
 		$this->Parceiro->id = $id;
+		$this->Parceiro->recursive = -1;
 		if (!$this->Parceiro->exists()) {
-			throw new NotFoundException(__('Invalid parceiro'));
+			throw new NotFoundException(__('Parceiro Inexistente'));
 		}
-		$this->set('parceiro', $this->Parceiro->read(null, $id));
+		$dados = $this->Parceiro->read(null, $id);
+		$dados = <<<JSON
+			{
+				"id" : "{$dados['Parceiro']['id']}",
+				"nome" : "{$dados['Parceiro']['nome']}",
+				"telefone" : "{$dados['Parceiro']['telefone']}",
+				"email" : "{$dados['Parceiro']['email']}",
+				"contato" : "{$dados['Parceiro']['contato']}",
+				"site" : "{$dados['Parceiro']['site']}",
+				"razao_social" : "{$dados['Parceiro']['razao_social']}"
+			}
+JSON;
+		$this->autoRender = false;
+		echo header('Content-type: application/json');
+		die($dados);
 	}
 
 /**
@@ -40,54 +55,40 @@ class ParceirosController extends AppController {
  */
 	public function admin_salvar() {
 		if ($this->request->is('ajax')) {
-			$token = time();
-			$xml = Xml::build("http://migre.me/api.xml?url=" . Router::url("/", true) . '?partner=' . $token);
-
-			$this->request->data['Parceiro']['url'] = $xml->migre;
-			$this->request->data['Parceiro']['token'] = $xml->id;
+			if(empty($this->request->data['Parceiro']['id'])){
+				$token = time();
+				$xml = Xml::build("http://migre.me/api.xml?url=" . Router::url("/", true) . '?partner=' . $token);
+	
+				$this->request->data['Parceiro']['url'] = $xml->migre;
+				$this->request->data['Parceiro']['token'] = $token;
+			}
+			
 			$this->Parceiro->create();
+			$json = '{';
 			if ($this->Parceiro->save($this->request->data)) {
-				App::uses('CakeTime', 'Utility');
-				$row = '<tr>';
-				$row .= '<td>#' . $this->Parceiro->id . '</td>';
-				$row .= '<td>' . $this->request->data['Parceiro']['nome'] . '</td>';
-				$row .= '<td><a target="_blank" href="' . $this->request->data['Parceiro']['url'] . '">' . $this->request->data['Parceiro']['url'] . '</a></td>';
-				$row .= '<td>' . date('d-m-Y H:i') . '</td>';
-				$row .= '</tr>';
-				$this->set('retorno', $row);
-				echo $row;
+				if(empty($this->request->data['Parceiro']['id'])){
+					App::uses('CakeTime', 'Utility');
+					
+					$now = date('d-m-Y H:i');
+					$row = <<<ROW
+<tr id="{$this->Parceiro->id}"><td>#{$this->Parceiro->id} </td><td> {$this->request->data['Parceiro']['nome']} </td><td><a target="_blank" href="{$this->request->data['Parceiro']['url']}">{$this->request->data['Parceiro']['url']}</a></td><td>{$now}</td><td><a href="javascript:void(0);" class="tooltips adicionar-premio" title="Definir prêmio para clientes"><i class="icon-gift"></i></a> <a href="javascript:void(0);" class="tooltips editar-parceiro" title="Editar este parceiro"><i class="icon-edit"></i></a> <a href="javascript:void(0);" class="tooltips remover-parceiro" title="Remover este parceiro"><i class="icon-remove-sign"></i></a></td></tr>
+ROW;
+					$this->set('retorno', $row);
+					$json .= '"tipo" : "create",';
+					$json .= '"append" : "' . addslashes($row) . '",';
+				} else {
+					$json .= '"tipo" : "update",';
+				}
+				$json .= '"response" : "true"';
 			} else {
 				$this->set('retorno', 'false');
-				echo 'false';
+				$json .= '"response" : "false"';
 			}
+			$json .= '}';
 		}
 		$this->autoRender = false;
-		$this->layout = 'ajax';
-	}
-
-/**
- * edit method
- *
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		$this->Parceiro->id = $id;
-		if (!$this->Parceiro->exists()) {
-			throw new NotFoundException(__('Invalid parceiro'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->Parceiro->save($this->request->data)) {
-				$this->Session->setFlash(__('The parceiro has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The parceiro could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->Parceiro->read(null, $id);
-		}
-		$usuarios = $this->Parceiro->Usuario->find('list');
-		$this->set(compact('usuarios'));
+		echo header('Content-type: application/json');
+		die($json);
 	}
 
 /**
@@ -96,19 +97,24 @@ class ParceirosController extends AppController {
  * @param string $id
  * @return void
  */
-	public function delete($id = null) {
+	public function admin_delete($id = null) {
 		if (!$this->request->is('post')) {
 			throw new MethodNotAllowedException();
 		}
 		$this->Parceiro->id = $id;
 		if (!$this->Parceiro->exists()) {
-			throw new NotFoundException(__('Invalid parceiro'));
+			throw new NotFoundException(__('Parceiro Invalido'));
 		}
+		$retorno = '{';
 		if ($this->Parceiro->delete()) {
-			$this->Session->setFlash(__('Parceiro deleted'));
-			$this->redirect(array('action' => 'index'));
+			$retorno .= '"response" : "true"';
+		} else {
+			$retorno .= '"response" : "false"';
 		}
-		$this->Session->setFlash(__('Parceiro was not deleted'));
-		$this->redirect(array('action' => 'index'));
+		$retorno .= '}';
+		
+		$this->autoRender = false;
+		echo header('Content-type: application/json');
+		die($retorno);
 	}
 }

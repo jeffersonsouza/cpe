@@ -1,2 +1,23 @@
 @CHARSET "UTF-8";
 
+#form-cadastro{
+	position: relative;
+}
+
+.modal-edicao {
+	background: url('/img/white_modal.png');
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: -30px;
+	display: none;
+}
+.modal-edicao-inner {
+	background: url('/img/ajax-loader.gif') center center no-repeat;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0px;
+}

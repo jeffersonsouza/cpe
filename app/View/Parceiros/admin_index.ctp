@@ -27,9 +27,9 @@ $this->end();
 				<td><a target="_blank" href="<?php echo $parceiro['Parceiro']['url']; ?>"><?php echo $parceiro['Parceiro']['url']; ?></a></td>
 				<td><?php echo $this->Time->format('d-m-Y H:i', $parceiro['Parceiro']['created']); ?></td>
 				<td>
-					<a href="javascript:void(0);" class="tooltips" title="Definir prêmio para clientes"><i class="icon-gift adicionar-premio"></i></a>
-					<a href="javascript:void(0);" class="tooltips" title="Editar este parceiro"><i class="icon-edit editar-parceiro"></i></a>
-					<a href="javascript:void(0);" class="tooltips" title="Remover este parceiro"><i class="icon-remove-sign remover-parceiro"></i></a>
+					<a href="javascript:void(0);" class="tooltips adicionar-premio" title="Definir prêmio para clientes"><i class="icon-gift"></i></a>
+					<a href="javascript:void(0);" class="tooltips editar-parceiro" title="Editar este parceiro"><i class="icon-edit"></i></a>
+					<a href="javascript:void(0);" class="tooltips remover-parceiro" title="Remover este parceiro"><i class="icon-remove-sign"></i></a>
 				</td>
 			</tr>
 			<?php endforeach; ?>
@@ -43,11 +43,12 @@ $this->end();
 		<?php echo $this->Form->input('email', array('class' => 'span3', 'placeholder' => 'email do parceiro', 'id' => 'email')); ?>
 		<?php echo $this->Form->input('contato', array('class' => 'span3', 'placeholder' => 'nome de contato com parceiro', 'id' => 'nome-contato')); ?>
 		<?php echo $this->Form->input('site', array('class' => 'span3', 'placeholder' => 'site do parceiro', 'id' => 'site')); ?>
-		<?php echo $this->Form->input('razao_social', array('class' => 'span3', 'placeholder' => 'razão social do parceiro', 'label' => 'Razão Social', 'id' => 'nome')); ?>
+		<?php echo $this->Form->input('razao_social', array('class' => 'span3', 'placeholder' => 'razão social do parceiro', 'label' => 'Razão Social', 'id' => 'razao-social')); ?>
 		<div class="pull-right">
-			<a href="javascript:void(0);" class="btn btn-success" id="cadastrar-parceiro">cadastrar</a>
-			<a href="" class="btn btn-inverse">cancelar</a>
+			<a href="javascript:void(0);" class="btn btn-success" id="cadastrar-parceiro">salvar</a>
+			<a href="javascript:void(0);" class="btn btn-inverse" id="limpa-cadastro">cancelar</a>
 		</div>
 		<?php echo $this->Form->end(); ?>
+		<span class="span3 modal-edicao"><span class="modal-edicao-inner"></span></span>
 	</section>
 </div>

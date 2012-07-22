@@ -26,11 +26,10 @@
 		<?php
 		echo $this->Html->meta('icon', 'ico/favicon');
 
-		echo $this->Html->css(array('bootstrap', 'bootstrap-responsive', 'prettify'));
+		echo $this->Html->css(array('bootstrap', 'bootstrap-responsive', 'prettify', 'admin'));
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
-		echo $this->fetch('script');
 		?>
 	</head>
 	<body>
@@ -63,6 +62,9 @@
 				<?php echo $this->fetch('content'); ?>
 			</section>
 		</div>
-		<?php echo $this->Html->script(array('jquery-1.7.2.min', 'bootstrap.min', 'application','default')); ?>
+		<?php
+		echo $this->Html->script(array('jquery-1.7.2.min', 'bootstrap.min', 'application','default'));
+		echo $this->fetch('script');
+		?>
 	</body>
 </html>
