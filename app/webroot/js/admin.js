@@ -32,6 +32,9 @@ jQuery(function($){
 		
 		// Executa o cadastro via AJAX
 		$.post('/admin/parceiros/salvar', campos, function(retorno){
+			// Remove o Loader de Cadstro/edição
+			$('.modal-edicao ').fadeOut();
+			
 			// Checa a resposta (em JSON)
 			if(retorno.response == 'true'){
 				// Verfica se é criação ou atualização

@@ -1,0 +1,52 @@
+/*
+ * @author Jefferson Souza
+ * @contact hsinfo@gmail.com
+ * @package Caesar Park
+ */
+
+@CHARSET "UTF-8";
+
+body {
+	background: url('/img/topo-gourmet-pass.jpg') #020202 top center no-repeat;
+	font-family: verdana, helvetica, arial, sans-serif;
+}
+
+header.menu {
+	position: absolute;
+	top: 15px;
+	right: 20px;
+}
+
+section.container {
+	padding-top: 580px;
+	position: relative;
+}
+section.container .well {
+	background-color: #fff !important;
+}
+article.conteudo {
+	color: #D69900;
+	line-height: 20px;
+}
+article.conteudo h4, article.conteudo h5 {
+	text-align: center;
+}
+article.conteudo h5 {
+	font-weight: normal;
+	margin-top: 15px;
+	margin-bottom: 25px;
+}
+article.cadastro {
+	position: relative;
+}
+article.cadastro .botao-termos{
+	position: absolute;
+	right: 10px;
+	top: 45px;
+}
+article.cadastro div p, article.cadastro .botao-cadastro{
+	position: absolute;
+}
+article.cadastro .botao-cadastro{
+	top: 45px;
+}

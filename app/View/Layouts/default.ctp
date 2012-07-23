@@ -26,7 +26,7 @@
 		<?php
 		echo $this->Html->meta('icon', 'ico/favicon');
 
-		echo $this->Html->css(array('bootstrap', 'bootstrap-responsive', 'prettify', 'admin'));
+		echo $this->Html->css(array('bootstrap', 'bootstrap-responsive', 'prettify', 'default'));
 
 		echo $this->fetch('meta');
 		echo $this->fetch('css');
@@ -35,27 +35,7 @@
 	<body>
 		<div id="container">
 			<header>
-				<div class="navbar navbar-fixed-top">
-					<div class="navbar-inner">
-						<div class="container">
-							<?php echo $this->Html->link('Your Application', array('controller' => 'pages', 'action' => 'home'), array('class' => 'brand')); ?>
-							<div class="nav-collapse collapse">
-								<ul class="nav">
-									<li class="active">
-										<a href="http://github.com/jeffersonsouza/cakeapp-twitter-bootstrap">Project Github</a>
-									</li>
-									<li class="divider-vertical"></li>
-									<li class="">
-										<a href="http://jeffersonsouza.com.br">About the Author</a>
-									</li>
-									<li class="">
-										<?php echo $this->Html->link('@jeffersonsouza', array('http://twitter.com/jeffersonsouza')); ?>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 			</header>
 			<section>
 				<?php echo $this->Session->flash(); ?>
@@ -63,7 +43,7 @@
 			</section>
 		</div>
 		<?php
-		echo $this->Html->script(array('jquery-1.7.2.min', 'bootstrap.min', 'application','default'));
+		echo $this->Html->script(array('jquery-1.7.2.min', 'bootstrap.min', 'application', 'jquery.meio.mask.min','default'));
 		echo $this->fetch('script');
 		?>
 	</body>
