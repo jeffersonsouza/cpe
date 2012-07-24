@@ -38,18 +38,16 @@ class ClientesController extends AppController {
  *
  * @return void
  */
-	public function add() {
+	public function cadastro() {
 		if ($this->request->is('post')) {
 			$this->Cliente->create();
 			if ($this->Cliente->save($this->request->data)) {
-				$this->Session->setFlash(__('The cliente has been saved'));
+				$this->Session->setFlash(__('Parabéns, agora você está concorrendo ao sorteio do Prêmio'));
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->Session->setFlash(__('The cliente could not be saved. Please, try again.'));
 			}
 		}
-		$premios = $this->Cliente->Premio->find('list');
-		$this->set(compact('premios'));
 	}
 
 /**
